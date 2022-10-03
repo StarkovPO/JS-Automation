@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "@playwright/test": "^1.26.1"
+  },
+  "scripts": {
+    "playwright_debug": "npx playwright test --debug",
+    "pwtest": "npx playwright test",
+    "show_report": "npx playwright show-report"
+  }
+}
