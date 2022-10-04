@@ -21,7 +21,7 @@ jobs:
       with:
         name: playwright-report
         if-no-fiels-found: error
-        path: playwright-report/index
+        path: playwright-report
         retention-days: 2
     - name: Send report via telegram bot
       run: "curl -X POST https://api.telegram.org/bot${{secrets.BOT_TOKEN}}/sendMessage -H \"Content-Type: application/json\" -d '{\"chat_id\": \"${{secrets.CHAT_ID}}\", \"text\": \"Report link is: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}\"}"
