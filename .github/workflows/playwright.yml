@@ -14,12 +14,14 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
+      continue-on-error: true
       run: npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report
-        path: playwright-report/index.html
+        if-no-fiels-found: error
+        path: playwright-report/index
         retention-days: 2
     - name: Send report via telegram bot
       run: "curl -X POST https://api.telegram.org/bot${{secrets.BOT_TOKEN}}/sendMessage -H \"Content-Type: application/json\" -d '{\"chat_id\": \"${{secrets.CHAT_ID}}\", \"text\": \"Report link is: https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}\"}"
