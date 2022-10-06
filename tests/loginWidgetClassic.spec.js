@@ -31,7 +31,7 @@ test.describe('Functionalty tests on login widget', () =>{
    const loginFormButton = page.locator('[data-testid="login-form__button-submit"]');
    await expect(loginFormButton).toBeVisible();
    await expect(loginFormButton).toHaveAttribute('type', 'submit');
-    expect(await loginFormButton.innerText()).toEqual('ВХОД');
+    expect(await loginFormButton.innerText()).toEqual('LOG IN');
   });
 
   test('Try to login success', async ({page}) => {
@@ -52,15 +52,15 @@ test.describe('Functionalty tests on login widget', () =>{
     await loginWidget.fillPassLogin(page, testData.wrongPass);
     await loginWidget.login(page);
 
-    expect(await page.locator('[data-testid="login-form__notification-error"]').innerText()).toEqual('Email-адреc/имя пользователя или пароль введены неверно.');
+    expect(await page.locator('[data-testid="login-form__notification-error"]').innerText()).toEqual('Incorrect email address/username or password.');
   });
 
   test('Try to fill invalid data', async ({page}) => {
     await loginWidget.fillEmailLogin(page, testData.damagedEmail);
     await loginWidget.fillPassLogin(page, testData.damagedPass);
 
-    expect(page.locator('text=Недопустимый email')).toBeVisible();
-    expect(page.locator('text=Минимальная длина: 5 символов')).toBeVisible();
+    expect(await page.locator('text=Invalid email')).toBeVisible();
+    expect(await page.locator('text=Minimal lenght: 5 symbols')).toBeVisible();
   });
 
   test('Try to sign up with already taken email', async ({page}) => {
@@ -70,6 +70,6 @@ test.describe('Functionalty tests on login widget', () =>{
     await loginWidget.fillPassSignup(page, testData.pass);
     await loginWidget.signUp(page);
 
-    expect(await page.locator('[data-testid="alert-title"]').innerText()).toEqual('Имя пользователя уже существует. Введите другое имя пользователя.');
+    expect(await page.locator('[data-testid="alert-title"]').innerText()).toEqual('User with this username already exists. Try another username.');
   });
 });
