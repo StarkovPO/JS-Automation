@@ -1,7 +1,8 @@
 const { test ,expect, page } = require('@playwright/test');
+import {testData} from '../fixtures/testData';
 export const loginWidget = {
-  async visit (page ,url)  {
-    await page.goto(url);
+  async visit (page)  {
+    await page.goto(testData.url);
   },
   async fillEmailLogin (page, email) {
     const loginFormLogin = await page.locator('[data-testid="log-in-form__fields-universal"]');
