@@ -40,11 +40,11 @@ test.describe('Functionalty tests on login widget', () =>{
     await loginWidget.login(page);
 
     const locatorDocLink = 'body > a';
-    expect(page.locator('h1').innerText()).toEqual('Successful authorization');
-    expect(page.locator('h1')).toBeVisible();
-    expect(page.locator(locatorDocLink).innerText()).toEqual('See documentation to learn more.');
-    expect(page.locator(locatorDocLink)).toBeVisible();
-    expect(page.locator(locatorDocLink)).toHaveAttribute('href','https://developers.xsolla.com/doc/login/integration-guide/set-up-login-project/#login_guide_classic_and_passwordless_login_basic_setup')
+    expect(await page.locator('h1').innerText()).toEqual('Successful authorization');
+    expect(await page.locator('h1')).toBeVisible();
+    expect(await page.locator(locatorDocLink).innerText()).toEqual('See documentation to learn more.');
+    expect(await page.locator(locatorDocLink)).toBeVisible();
+    expect(await page.locator(locatorDocLink)).toHaveAttribute('href','https://developers.xsolla.com/doc/login/integration-guide/set-up-login-project/#login_guide_classic_and_passwordless_login_basic_setup')
   });
 
   test('Try to login unsuccess', async ({page}) => {
