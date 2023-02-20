@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@playwright/test": "^1.26.1"
+    "@playwright/test": "1.30"
   },
   "scripts": {
     "playwright_debug": "npx playwright test --debug",
