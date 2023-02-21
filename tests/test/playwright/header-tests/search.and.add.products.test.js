@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { createConnection } from 'net';
+import { timeout } from '../../../../playwright.config';
 import { Catalog } from '../pageobject/page.catalog';
 import { Header } from '../pageobject/page.header';
 import { Homepage } from '../pageobject/page.home.js'; 
@@ -43,11 +44,28 @@ test.describe('Search and add products from a search panel', () => {
         const buttons = header.AddToCartButtonCount;
         const count = await buttons.count();
         const element = header.AddToCartButton;
+        const responseBody = []
+    
 
+        
         for (let i = 0; i < count; i++) {
-            await element.click();
+            // await element.click();
+            // page.on('response', res => {
+            //     if (res.url().includes('')){
+            //         console.log(`<< === ${res.url()}`)
+            //     }})
+        let [userResponse] = await Promise.all([
+            page.waitForResponse('**/cart.json'),
+                element.click()
+            ]);
+            let userResponseBody = await userResponse.json();
+                  responseBody.push(userResponseBody);
         }
+    
+    console.log(responseBody)
+
         expect(header.cartCounter == count);
+        await page.waitForTimeout(5000);
     }) 
     
 });
