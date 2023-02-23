@@ -21,6 +21,7 @@ test.describe('Search and add products from a search panel', () => {
     
         await header.searchField.click();
         await header.searchFieldExpanded.fill('brot');
+
         const buttons = header.AddToCartButtonCount;
         await page.waitForTimeout(1000)
         const count = await buttons.count();
@@ -35,7 +36,7 @@ test.describe('Search and add products from a search panel', () => {
         expect(value === count);
     }) 
 
-    test('Check that total of added suggested products match the cart total', async ({ page }) => {
+    test.only('Check that total of added suggested products match the cart total', async ({ page }) => {
         
         const header = new Header(page);
     
@@ -47,8 +48,8 @@ test.describe('Search and add products from a search panel', () => {
         await page.waitForTimeout(1000)
         const count = await buttons.count();
         const element = header.AddToCartButton;
+        
         const responseBody = [];
-
         for (let i = 0; i < count; i++) {
 
             let [userResponse] = await Promise.all([
@@ -56,16 +57,26 @@ test.describe('Search and add products from a search panel', () => {
                 element.click()
             ])
             let userResponseBody = await userResponse.json();
-            responseBody.push(userResponseBody);
+            if (i === count - 1) {
+                // push only the last response to the array
+                responseBody.push(userResponseBody);
+            }
+            console.log(responseBody)
+        }    
+        let itemTotal = 0;
+        for (let i = 0; i < responseBody.length; i++) {
+            itemTotal += responseBody[i].cart.item_total
+            console.log(itemTotal)
         }
-        console.log(responseBody)
-        let itemTotal 
-        for (let i = 0; i < count; i++) {
-            itemTotal += responseBody[i].item_total
-        }
-        console.log(itemTotal)
+
         await header.cancelSearchButton.click();
-        expect(header.cartCounter == count)
+        const priceText = await header.cartPrice.innerText();
+        const priceRegex = /\d+(,\d+)?/;
+        const priceMatch = priceText.match(priceRegex);
+        // convert the price string to a float
+        const price = priceMatch ? parseFloat(priceMatch[0].replace(',', '.')) : NaN;
+        console.log(price);
+        expect(itemTotal === price);
         
     }) 
     
