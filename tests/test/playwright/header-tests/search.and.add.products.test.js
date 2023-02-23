@@ -45,27 +45,36 @@ test.describe('Search and add products from a search panel', () => {
         const count = await buttons.count();
         const element = header.AddToCartButton;
         const responseBody = []
-    
 
-        
         for (let i = 0; i < count; i++) {
-            // await element.click();
-            // page.on('response', res => {
-            //     if (res.url().includes('')){
-            //         console.log(`<< === ${res.url()}`)
-            //     }})
-        let [userResponse] = await Promise.all([
-            page.waitForResponse('**/cart.json'),
-                element.click()
-            ]);
-            let userResponseBody = await userResponse.json();
-                  responseBody.push(userResponseBody);
-        }
-    
-    console.log(responseBody)
 
-        expect(header.cartCounter == count);
-        await page.waitForTimeout(5000);
+            let [userResponse] = await Promise.all([
+                page.waitForResponse('**/cart.json'),
+                element.click()
+            ])
+            let userResponseBody = await userResponse.json();
+            responseBody.push(userResponseBody);
+        }
+        console.log(responseBody)
+        let itemTotal 
+        for (let i = 0; i < responseBody.length; i++) {
+            itemTotal += responseBody[i].item_total
+        }
+        expect(header.cartCounter == count)
+        
+        // for (let i = 0; i < count; i++) {
+        //     await element.click();
+        //     page.on('response', res => {
+        //         if (res.url().includes('')){
+        //             console.log(`<< === ${res.url()}`)
+        //         }})
+        // let [userResponse] = await Promise.all([
+        //     page.waitForResponse('**/cart.json'),
+        //         element.click()
+        //     ]);
+        //     let userResponseBody = await userResponse.json();
+        //           responseBody.push(userResponseBody);
+        // }
     }) 
     
 });
