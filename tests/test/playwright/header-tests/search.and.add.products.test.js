@@ -1,9 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { createConnection } from 'net';
-import { head } from 'request';
-import { Catalog } from '../pageobject/page.catalog';
 import { Header } from '../pageobject/page.header';
-import { Homepage } from '../pageobject/page.home.js'; 
+import { Homepage } from '../pageobject/page.home'; 
  
 
 test.describe('Search and add products from a search panel', () => {
@@ -36,7 +33,7 @@ test.describe('Search and add products from a search panel', () => {
         expect(value === count);
     }) 
 
-    test.only('Check that total of added suggested products match the cart total', async ({ page }) => {
+    test('Check that total of added suggested products match the cart total', async ({ page }) => {
         
         const header = new Header(page);
     
@@ -61,22 +58,23 @@ test.describe('Search and add products from a search panel', () => {
                 // push only the last response to the array
                 responseBody.push(userResponseBody);
             }
-            console.log(responseBody)
+            // console.log(responseBody)
         }    
         let itemTotal = 0;
         for (let i = 0; i < responseBody.length; i++) {
             itemTotal += responseBody[i].cart.item_total
-            console.log(itemTotal)
+            // console.log(itemTotal)
         }
 
         await header.cancelSearchButton.click();
-        const priceText = await header.cartPrice.innerText();
+        await page.waitForTimeout(2000)
+        const priceText = await header.cartTotalPrice.innerText();
         const priceRegex = /\d+(,\d+)?/;
         const priceMatch = priceText.match(priceRegex);
         // convert the price string to a float
         const price = priceMatch ? parseFloat(priceMatch[0].replace(',', '.')) : NaN;
-        console.log(price);
-        expect(itemTotal === price);
+        // console.log(price);
+        expect(price === itemTotal).toBe(true);
         
     }) 
     

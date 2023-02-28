@@ -11,18 +11,22 @@ exports.Homepage = class Homepage {
     this.page = page;
     this.okCookieLink = page.locator('a', { hasText: 'Alle Cookies erlauben' });
     this.anmeldenOnPopup = page.locator('.link-styled:has-text("Anmelden")');
-    this.anmeldenInCorner = page.locator(':nth-match(:text("Anmelden"), 1)');
+    this.anmeldenInCorner = page.getByText("Anmelden");
     this.ihrMarktLink = page.locator('.hub-text:has-text("Ihr Markt:")');
     this.addressField = page.locator('input[id="address-input"]');
     this.addressInDropdown = page.locator('div.address-options > div > div');
     this.addressInCell = page.locator('div[tabindex="0"]');
     this.goShoppingButton = page.locator('button:has-text("Einkauf Starten")');
-    this.goMarketButton = page.locator('button:has-text("Jetzt einlösen")');
+    this.goMarketButton = page.locator('button:has-text("Jetzt downloaden")');
+    this.goMarketButtonOnProd = page.locator('button:has-text("Jetzt ausprobieren")');
+    this.firstTeaserBox = page.locator('.img-fluid >> nth=0');
+    this.secondTeaserBox = page.locator('.img-fluid >> nth=1');
+    this.thirdTeaserBox = page.locator('.img-fluid >> nth=2');
     this.repeatLastOrderButton = page.locator('button:has-text("Letzten Kauf wiederholen")');
-    this.myOrdersButton = page.locator('button:has-text("Bestellungen")');
+    this.myOrdersButton = page.getByText('Bestellungen');
     this.goFavoritesButton = page.locator('//*[@id="home-wrapper"]/div[2]/div/div/div/div[3]/a'); 
-    this.moreButtonSparpreise = page.locator('//*[@id="product-list-wrapper"]/div/div[2]/a/button>>nth=0');
-    this.moreButtonNewAssortment = page.locator('//*[@id="product-list-wrapper"]/div/div[2]/a/button>>nth=1');
+    this.moreButtonSparpreise = page.locator('//*[@id="product-list-wrapper"]/div/div[2]/a/button >> nth=0');
+    this.moreButtonNewAssortment = page.locator('//*[@id="product-list-wrapper"]/div/div[2]/a/button >> nth=1');
     this.loggedInIcon = page.locator('button.header-dropdown-toggle.dropdown-toggle.btn.btn-primary');
     this.logOutButton = page.locator('a:has-text("Abmelden")');
   }
@@ -43,8 +47,8 @@ exports.Homepage = class Homepage {
     await this.anmeldenOnPopup.click();
   }
 
-  async gotoLogin2() {
-    await this.anmeldenInCorner.first().click();
+  async clickOnAnmeldenButton() {
+    await this.anmeldenInCorner.click();
   }
 
   async chooseHub () {
@@ -61,10 +65,6 @@ exports.Homepage = class Homepage {
     await this.goShoppingButton.click();
   }
 
-  async gotoMarket() {
-    await this.goMarketButton.click();
-  }
-
   async repeatLastOrder() {
     await this.repeatLastOrderButton.click();
   }
@@ -79,8 +79,6 @@ exports.Homepage = class Homepage {
     this.provideDeliveryAddress();
     this.gotoMarket();
   }
-
-
 }
 
 

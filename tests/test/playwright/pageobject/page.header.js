@@ -9,6 +9,7 @@ exports.Header = class Header {
   constructor(page) {
     this.page = page
 
+    this.navigationButtons = page.locator("div.nav-item")
     this.vorratskammerLink = page.locator('text=Vorratskammer')
     this.suessesLink = page.locator('text=Süßes & Salziges')
     this.getraenkeLink = page.locator('text=Getränke')
@@ -21,6 +22,7 @@ exports.Header = class Header {
     this.tiefkuehlLink = page.locator('text=Tiefkühl')
     this.drogerieLink = page.locator('text=Drogerie & Pflege')
 
+    this.profileFavoriteLink = page.locator('.header-link >> nth=0')
     this.headerLogo = page.locator('img[alt="Alnatura Shop"]')
     this.beliebteProdukteLink = page.getByText('Drogerie & Pflege')
     this.neuImSortimentLink = page.getByText('Neu im Sortiment')
